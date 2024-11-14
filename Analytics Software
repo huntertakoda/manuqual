@@ -1,1 +1,6 @@
-
+Anaconda Distribution / Anaconda Navigator ; A good directory for different data analysis softwares / languages. It contains things like Pycharm & Spyder, for example.
+Pycharm & Spyder ; On the note of Pycharm + Spider, both are personal favorites for Python in the Data Sciences. 
++ Spyder : A good IDE for Python, especially if you don't want to deal with trials & then having to switch IDEs if you choose not to subscribe.
++ Pycharm : A good Data Science tailored IDE for Python. I recommend trying the trial out even if you use Spyder mostly.
+++ Zero-sum game-risk in trying it out, but fair warning that you should make sure to remember to cancel your trial if you don't want to subscribe!
+DBeaver ; DBeaver is a really good SQL software which supports things like PostgreSQL, MySql, etc. as well as NoSQL databases. I definitely recommend it for Data Science.
