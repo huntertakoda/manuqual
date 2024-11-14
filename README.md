@@ -1,6 +1,37 @@
 # manuqual
 Manufacturing Quality Data Analysis, of which the following key points can be made:
 
+**CORE POINTS OF ANALYSIS**
+
+**Product 001 and 002 have a problematic average yield percentage.**
+
+Product 001 and 002 are the stand-out problem. Identification of the product should be done, and this information should be relayed to the manufacturing manager.
+
+The manufacturing manager could cause a sudden blast in quality by tweaking the quality, presumably through talking with operators & checking out machines.
+(Machines will be addressed soon.)
+
+Product 003, 004 and 005 all had success in reaching the average yield percentage required. This success should also be relayed to the proper person so they can utilize the success of these specific products as a benchmark for obtaining consistency with the others.
+
+**Machine's D4, E1, D2, A3, B3, and A1, should be checked for problems.**
+
+Machine's D4, E1, D2, and A3 should be looked into since they have the highest average maintenance cost across the months.
+
+Nonetheless, Machine B3 and (especially) Machine A1 should be looked into since they had trouble & even failed (A1) to meet the average yield percentage threshold.
+
+Other than that, the manufacturers should make sure that their building isn't pointlessly exerting overwhelming maintenance costs, presuming that any of these are considered 'a lot.' This is mentioned considering Machine B4 had approximately half the average maintenance costs of many of the machines.
+
+Machine D4, E1, B1, C1, C3 and A4 & their respective usual operators should be used as a benchmark for quality average yield percentage outputs.
+
+**Surface defects, material flaws and finish problems have the highest maintenance cost & critical error-rate, dimension errors has the third highest critical error-rate but second lowest maintenance cost. All should be discussed with the manufacturing managers.**
+
+Surface defects, material flaws, and finish problems should all be properly looked into and talked about with the manufacturing managers since they were all in the top 4 of most critical defects, and each of them had the highest rework costs. Dimension errors, although only the second on rework costs, should still be looked into as well since it had one of the highest critical error rates, even beating out problems with finishing on products.
+
+**March - August was succesful. August & October had a sudden double-fold in maintenance costs. The problem(s) should be identified, and discussed to prevent future patterns or problems of notably exacerbated maintenance costs.**
+
+March and August were pretty succesful for maintenance costs - relatively, that should be used as a benchmark relative to August & October.
+
+August & October should be looked into (i.e. what was happening on the floor in the manufacturing buildings) to identify what was causing a sudden double-fold in the maintenance costs despite being a notably shorter timeframe. This should be used to prevent or reduce future problems with sudden double-folds in maintenance costs as well as possible.
+
 **Production Yield Percentage Quality:**
 
 Product 001 and 002 had trouble in manufacturing, they were commonly struggling to make it over the minimum quality line, and commonly even under it.
