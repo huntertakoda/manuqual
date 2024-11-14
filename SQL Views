@@ -1,0 +1,140 @@
+# views
+
+# overall production metrics view
+
+create view production_metrics as
+select
+	pr.product_id,
+	count(*) as total_runs,
+	sum(pr.target_quantity) as total_target,
+	sum(pr.actual_quantity) as total_produced,
+	round(avg(pr.actual quantity/pr.target_quantity * 100), 2) as yield_percentage,
+	count(distinct pr.operator_id) as unique_operators
+from production_runs pr 
+group by pr.product_id
+;
+
+# production metrics 
+
+create view production_metrics as
+select 
+    pr.product_id,
+    count(*) as total_runs,
+    sum(target_quantity) as total_target,
+    sum(actual_quantity) as total_produced,
+    round((sum(actual_quantity)/sum(target_quantity)) * 100, 2) as yield_percentage,
+    count(distinct operator_id) as unique_operators
+from production_runs pr
+group by pr.product_id
+;
+
+select *
+from production_metrics 
+;
+
+# quality metrics 
+
+create view quality_metrics as
+select
+	pr.product_id,
+	count(distinct qc.check_id) as total_checks,
+	sum(case when qc.pass_fail = 1 then 1 else 0 end) as passed_checks,
+	round((sum(case when qc.pass_fail = 1 then 1 else 0 end) / count(qc.check_id)) * 100, 2) as pass_rate,
+	count(distinct d.defect_id) as total_defects
+from production_runs pr
+left join quality_checks qc on pr.run_id = qc.run_id
+left join defects d on qc.check_id = d.check_id
+group by pr.product_id
+;
+
+select *
+from quality_metrics
+;
+
+# machine metrics
+
+create view machine_metrics as
+select
+	pr.machine_id,
+	count(distinct pr.run_id) as total_runs,
+	round((sum(actual_quantity)/sum(target_quantity)) * 100, 2) as efficiency,
+	count(distinct case when mm.maintenance_type = 'emergency' then mm.maintenance_id end) as emergency_repairs,
+	round((sum(case when qc.pass_fail = 1 then 1 else 0 end) / count(qc.check_id)) * 100, 2) as quality_rate
+from production_runs pr
+left join machine_maintenance mm on pr.machine_id = mm.machine_id
+left join quality_checks qc on pr.run_id = qc.run_id
+group by pr.machine_id
+;
+
+select *
+from machine_metrics
+;
+
+# defect analysis
+
+create view defect_metrics as
+select
+	d.defect_type,
+	d.severity,
+	count(*) as defect_count,
+	round(avg(d.rework_cost), 2) as avg_rework_cost,
+	round(sum(d.rework_cost), 2) as total_rework_cost,
+	count(distinct pr.product_id) as affected_products
+from defects d 
+join quality_checks qc on d.check_id = qc.check_id
+join production_runs pr on qc.run_id = pr.run_id
+group by d.defect_type, d.severity
+;
+
+select *
+from defect_metrics
+;
+
+# time based performance | daily production
+
+create view daily_production_metrics as
+select 
+    date(pr.start_time) as production_date,
+    count(distinct pr.run_id) as total_runs,
+    sum(pr.actual_quantity) as total_produced,
+    round((sum(pr.actual_quantity)/sum(pr.target_quantity)) * 100, 2) as daily_yield,
+    count(distinct case when qc.pass_fail = 0 then qc.check_id end) as failed_checks,
+    count(distinct case when mm.maintenance_type = 'emergency' then mm.maintenance_id end) as emergency_repairs
+from production_runs pr
+left join quality_checks qc on pr.run_id = qc.run_id
+left join machine_maintenance mm on pr.machine_id = mm.machine_id and date(mm.scheduled_date) = date(pr.start_time)
+group by date(pr.start_time)
+;
+
+# tableau manufacturing metrics view (for transporting data to tableau)
+
+create view tableau_manufacturing_metrics as
+select 
+    pr.run_id,
+    pr.product_id,
+    pr.machine_id,
+    pr.operator_id,
+    pr.start_time,
+    pr.end_time,
+    pr.target_quantity,
+    pr.actual_quantity,
+    pr.status,
+    qc.check_id,
+    qc.pass_fail,
+    d.defect_type,
+    d.severity,
+    d.rework_cost,
+    mm.maintenance_type,
+    mm.cost as maintenance_cost,
+    -- calculated fields
+    (pr.actual_quantity/pr.target_quantity * 100) as yield_percentage,
+    case when qc.pass_fail = 1 then 1 else 0 end as passed_check
+from production_runs pr
+left join quality_checks qc on pr.run_id = qc.run_id
+left join defects d on qc.check_id = d.check_id
+left join machine_maintenance mm on pr.machine_id = mm.machine_id
+;
+
+select *
+from tableau_manufacturing_metrics
+;
